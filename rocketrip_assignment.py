@@ -56,7 +56,19 @@ def process_and_return_random_tweet(url, keyword):
     print("No tweets matching keyword: %s" % keyword)
     return
 
-  print random.sample(tweets, 1)
+  random_tweet = random.sample(tweets, 1)[0]
+  
+  username   = random_tweet["user"]["screen_name"]
+  tweet_text = random_tweet["text"].encode('utf-8') # To support non english characters.
+
+  print(username)
+  print(tweet_text)
+
+  if("media" in random_tweet["entities"].keys()):
+    for media in random_tweet["entities"]["media"]:
+      print media["media_url"]
+      
+
 
 if __name__ == "__main__":
   endpoint = "https://api.twitter.com/1.1/search/tweets.json"
