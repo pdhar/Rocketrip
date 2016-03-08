@@ -12,7 +12,7 @@ signature_method_hmac_sha1 = oauth2.SignatureMethod_HMAC_SHA1()
 
 def fetch_tweets(url, keyword, http_method, count=100):
   
-  parameters = {"q" : keyword}
+  parameters = {"q" : keyword, "count" : count, "include_entities" : "true"}
 
   req = oauth2.Request.from_consumer_and_token(oauth_consumer,
                                              token=oauth_token,
