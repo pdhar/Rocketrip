@@ -1,6 +1,6 @@
 # Rocketrip Assignment
 
-* Python version: Tested on version 2.7.3, but should work on latest version.
+* Python version: Tested on versions 2.7.3, 3.5
 
 * Instructions: python rocketrip_assignment.py "keyword"
 
