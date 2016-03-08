@@ -59,7 +59,7 @@ def fetch_tweets(url, keyword, count=15):
 
 """
 def process_and_return_random_tweet(url, keyword):
-  response = fetch_tweets(endpoint, keyword, 15)
+  response = fetch_tweets(endpoint, keyword, 50)
   
   # Basic check for valid response status
   if(response.status_code != 200):
