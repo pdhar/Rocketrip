@@ -26,9 +26,19 @@ oauth_token    = oauth2.Token(key=access_token_key, secret=access_token_secret)
 oauth_consumer = oauth2.Consumer(key=api_key, secret=api_secret)
 signature_method_hmac_sha1 = oauth2.SignatureMethod_HMAC_SHA1()
 
-def fetch_tweets(url, keyword, http_method, count=15):
+"""
+  fetch_tweets
+
+  params:
+  url - twitter endpoint to get oauth token and make search query.
+  keyword - search word
+  count  - number of tweets to sample
+
+"""
+def fetch_tweets(url, keyword, count=15):
   
-  parameters = {"q" : keyword, "count" : count, "include_entities" : "true"}
+  parameters  = {"q" : keyword, "count" : count, "include_entities" : "true"}
+  http_method = "GET"
 
   req = oauth2.Request.from_consumer_and_token(oauth_consumer,
                                              token=oauth_token,
@@ -40,8 +50,16 @@ def fetch_tweets(url, keyword, http_method, count=15):
   
   return requests.get(req.to_url())
 
+"""
+  process_and_return_random_tweet
+
+  params:
+  url - twitter endpoint to get oauth token and make search query.
+  keyword - search word
+
+"""
 def process_and_return_random_tweet(url, keyword):
-  response = fetch_tweets(endpoint, keyword, "GET", 15)
+  response = fetch_tweets(endpoint, keyword, 15)
   
   # Basic check for valid response status
   if(response.status_code != 200):
@@ -58,17 +76,31 @@ def process_and_return_random_tweet(url, keyword):
 
   random_tweet = random.sample(tweets, 1)[0]
   
-  username   = random_tweet["user"]["screen_name"]
+  username   = random_tweet["user"]["screen_name"].encode('utf-8')
   tweet_text = random_tweet["text"].encode('utf-8') # To support non english characters.
 
-  print(username)
-  print(tweet_text)
-
+  media_links = []
   if("media" in random_tweet["entities"].keys()):
     for media in random_tweet["entities"]["media"]:
-      print media["media_url"]
+      media_links.append(media["media_url"].encode('utf-8')) 
       
+  display_tweet_formatted(username, tweet_text, media_links)
 
+"""
+  display_tweet_formatted
+
+  params:
+  username    - tweet user
+  tweet_text  - tweet text 
+  media_links - media links inside tweet
+
+"""
+def display_tweet_formatted(username, tweet_text, media_links):
+  print("@%s : %s " % (username, tweet_text))
+  if(len(media_links) > 0):
+    print("media : ")
+    for link in media_links:
+      print(link)
 
 if __name__ == "__main__":
   endpoint = "https://api.twitter.com/1.1/search/tweets.json"
@@ -76,8 +108,6 @@ if __name__ == "__main__":
 
   if len(sys.argv) == 2:
     keyword = sys.argv[1]
+    process_and_return_random_tweet(endpoint, keyword)
   else:
     print("Usage : python rocketrip_assignment 'keyword' ")
-    # return 
-
-  process_and_return_random_tweet(endpoint, keyword)

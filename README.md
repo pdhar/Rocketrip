@@ -4,6 +4,24 @@
 
 * Instructions: python rocketrip_assignment.py "keyword"
 
+* Output 
+
+	Example Usage:
+
+	```bash
+
+	python rocketrip_assignment.py "football"
+
+	```
+	Result:
+
+	```
+		@TheREAL_Monte : RT @espn: In 1998, they joined the NFL together as college legends.
+		In 2016, they depart the NFL together as football legends. https://t.co… 
+		media : 
+		http://pbs.twimg.com/media/Cc4k-rLW4AApyIx.jpg
+	```
+
 * Dependencies:
 
 	* oauth2 	 - https://github.com/joestump/python-oauth2
